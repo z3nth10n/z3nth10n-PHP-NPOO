@@ -76,6 +76,13 @@ if(!checkEmpty($arr, $action))
 					//and if we are playing update played time from user (we have to detect if we are playing)
 					break;
 
+                case "resolve-captcha":
+                    $secret = @$_POST["secret"];
+                    $input = @$_POST["input"];
+
+                    $coreData["valid"] = md5($input) === $secret;
+                    break;
+
 				default:
 					$defaultCase = true;
 					break;
@@ -159,13 +166,18 @@ if(!checkEmpty($arr, $action))
                     break;
 
                 case "captcha":
-                    $forceHeader = false;
+                    //$forceHeader = false;
                     include("libs/captcha/autoload.php");
 
                     $builder = new Gregwar\Captcha\CaptchaBuilder;
                     $builder->build();
-                    header('Content-type: image/jpeg');
+
+                    ob_start();
                     $builder->output();
+                    $imageString = ob_get_clean();
+
+                    $coreData["jpeg"] = base64_encode($imageString);
+                    $coreData["md5"] = md5($builder->getPhrase());
                     break;
 
 				default:
