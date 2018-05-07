@@ -1,1 +1,9 @@
-/.idea/
+/.vs/
+/.sonarqube/
+*.jar
+*.json
+*.xml
+!fversion.json
+libraries/
+natives/
+SonarQube/
