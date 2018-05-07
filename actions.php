@@ -10,6 +10,7 @@ $arr = $isPost ? @$_POST : @$_GET;
 $action = $arr['action'];
 
 $defaultCase = false;
+$forceHeader = true;
 
 if(!checkEmpty($arr, $action)) 
 {
@@ -155,6 +156,16 @@ if(!checkEmpty($arr, $action))
                 case "pubkey":
                     //$coreData["privKey"] = file_get_contents("keys/private.key");
                     $coreData["pubKey"] = file_get_contents("keys/public.key");
+                    break;
+
+                case "captcha":
+                    $forceHeader = false;
+                    include("libs/captcha/autoload.php");
+
+                    $builder = new Gregwar\Captcha\CaptchaBuilder;
+                    $builder->build();
+                    header('Content-type: image/jpeg');
+                    $builder->output();
                     break;
 
 				default:
