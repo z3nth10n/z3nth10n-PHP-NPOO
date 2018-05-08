@@ -53,6 +53,7 @@ $Error = array(
     "error_null_userdata" => "Null user data for tokenid: {0}",
     "error_auth_nullcreds" => "",
     "error_unset_parameters" => "There are unsetted parameters: {0} in the function...",
+    "noSession" => "There isn't any established session!",
     "queryError" => "{0}",
     "phpError" => "Error: [{0}] {1}\n\nFile: {2}:{3}\n\nTrace: {4}",
     "emptyVar" => "No se ha especificado un valor para '{0}'.",

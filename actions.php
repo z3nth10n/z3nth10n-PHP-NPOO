@@ -77,10 +77,23 @@ if(!checkEmpty($arr, $action))
 					break;
 
                 case "resolve-captcha":
-                    $secret = @$_POST["secret"];
+
+                    if(session_status() == PHP_SESSION_NONE)
+                    {
+                        //session_name("CookieName");
+                        session_start(); //addError("noSession");
+                    }
+
+                    $secret = @$_SESSION["phrase"]; //@$_POST["secret"];
+
+                    if(empty($secret))
+                        die("No secret!");
+
+                    $coreData["secret"] = $secret;
+
                     $input = @$_POST["input"];
 
-                    $coreData["valid"] = md5($input) === $secret;
+                    $coreData["valid"] = $input === $secret;
                     break;
 
 				default:
@@ -166,6 +179,12 @@ if(!checkEmpty($arr, $action))
                     break;
 
                 case "captcha":
+                    if (session_status() == PHP_SESSION_NONE)
+                    {
+                        //session_name("CookieName");
+                        session_start();
+                    }
+
                     //$forceHeader = false;
                     include("libs/captcha/autoload.php");
 
@@ -176,8 +195,45 @@ if(!checkEmpty($arr, $action))
                     $builder->output();
                     $imageString = ob_get_clean();
 
+                    $phrase = $builder->getPhrase();
+                    $_SESSION['phrase'] = $phrase;
+
                     $coreData["jpeg"] = base64_encode($imageString);
-                    $coreData["md5"] = md5($builder->getPhrase());
+                    //$coreData["md5"] = md5($phrase);
+                    break;
+
+                case "compute":
+                    $time_start = microtime(true);
+
+                    $num = 100000;
+                    $i = 0;
+                    $addalphabeth = array_merge(range('a', 'z'), range(0,9));
+                    $txt = "";
+
+                    $setcharacter = [];
+                    foreach ($addalphabeth as $setcharacter[0]) {
+                        foreach ($addalphabeth as $setcharacter[1]) {
+                            foreach ($addalphabeth as $setcharacter[2]) {
+                                foreach ($addalphabeth as $setcharacter[3]) {
+                                    foreach ($addalphabeth as $setcharacter[4]) {
+                                        $str = vsprintf('%s%s%s%s%s', $setcharacter);
+
+                                        $txt .= $str." - ".md5($str).PHP_EOL;
+
+                                        ++$i;
+                                        if($i == $num)
+                                        {
+                                            break 5;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    file_put_contents('results/md5.txt', $txt);
+
+                    $coreData["executionTime"] = (int)((microtime(true) - $time_start) * 1000);
                     break;
 
 				default:
