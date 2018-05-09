@@ -6,6 +6,8 @@
  * Time: 3:28
  */
 
+// DECRYPT
+
 require( __DIR__ . "/../assert/Assert.php");
 require( __DIR__ . "/../assert/Assertion.php");
 require( __DIR__ . "/../assert/AssertionFailedException.php");
@@ -46,8 +48,22 @@ require("Algorithm/ContentEncryptionAlgorithmInterface.php");
 
 require(__DIR__ . "/../php-aes-gcm/AESGCM.php");
 
+// For decrypt
 require("Algorithm/ContentEncryption/AESGCM.php");
 require("Algorithm/ContentEncryption/A256GCM.php");
+
+// For encrypt
+
+// RSA-OAEP-256
+require("Algorithm/ContentEncryption/AESCBCHS.php");
+require("Algorithm/ContentEncryption/A256CBCHS512.php");
+require("Algorithm/KeyEncryption/RSAOAEP256.php");
+
+//A256GCMKW
+require("Algorithm/KeyEncryption/KeyWrappingInterface.php");
+require("Algorithm/KeyEncryption/AESGCMKW.php");
+require("Algorithm/KeyEncryption/A256GCMKW.php");
+
 require("Factory/AlgorithmManagerFactory.php");
 
 require("Compression/CompressionInterface.php");
@@ -90,3 +106,11 @@ require("Factory/JWKFactoryInterface.php");
 require("Factory/JWKFactory.php");
 require("LoaderInterface.php");
 require("Loader.php");
+
+// ENCRYPT
+
+require("Behaviour/EncrypterTrait.php");
+require("EncrypterInterface.php");
+require("Encrypter.php");
+require("Factory/JWEFactoryInterface.php");
+require("Factory/JWEFactory.php");

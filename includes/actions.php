@@ -272,12 +272,37 @@ if(!checkEmpty($arr, $action))
                         $coreData["msg"] = $rsa->decrypt($input);
                     break;
 
+                case 'encrypt-jose':
+                    include(__DIR__ . "/../libs/jose/autoload.php");
+
+                    $file = __DIR__ . '/../keys/public.key';
+                    $contents = file_get_contents($file);
+
+                    // This is the input we want to load verify.
+                    $input = @$_GET["input"];
+
+                    $key = new \Jose\KeyConverter\RSAKey($contents);
+
+                    $jwe = \Jose\Factory\JWEFactory::createJWEToCompactJSON(
+                        $input,                    // The message to encrypt
+                        new \Jose\Object\JWK($key->toArray()),                        // The key of the recipient
+                        [
+                            'alg' => 'RSA-OAEP',
+                            'enc' => 'A256GCM',
+                            'zip' => 'DEF',
+                        ]
+                    );
+
+                    $coreData["jwe"] = $jwe;
+                    break;
+
                     //This goes to POST
                 case 'decrypt-jose':
                     include(__DIR__ . "/../libs/jose/autoload.php");
+                    //include(__DIR__ . "/../libs/phpseclib/rsa_autoload.php");
 
                     // We load our private RSA key.
-                    $jwk = Jose\Factory\JWKFactory::createFromKeyFile(
+                    /*$jwk = Jose\Factory\JWKFactory::createFromKeyFile(
                         __DIR__ . '/keys/private.key',
                         null,
                         [
@@ -285,18 +310,35 @@ if(!checkEmpty($arr, $action))
                             'use' => 'enc',
                             'alg' => 'RSA-OAEP',
                         ]
-                    );
+                    );*/
 
-                    // We create our loader.
-                    $loader = new Jose\Loader();
+                    $file = __DIR__ . '/../keys/private.key';
+                    $contents = file_get_contents($file);
+
+                    /*$rsa = new \phpseclib\Crypt\RSA();
+                    $rsa->loadKey($contents);
+                    $rsa->setPrivateKey();
+                    $key = $rsa->getPrivateKey(\phpseclib\Crypt\RSA::PRIVATE_FORMAT_PKCS1);
+
+                    echo $key;*/
+
+                    //echo $contents;
 
                     // This is the input we want to load verify.
                     $input = @$_GET["input"];
 
+                    $jwk = new \Jose\KeyConverter\RSAKey($contents);
+
+                    //echo \Jose\Util\RSA::decrypt($jwk, $input, 'sha256');
+
+                    // We create our loader.
+                    $loader = new Jose\Loader();
+                    $loader->load($input);
+
                     // The payload is decrypted using our key.
                     $jws = $loader->loadAndDecryptUsingKey(
                         $input,            // The input to load and decrypt
-                        $jwk,              // The symmetric or private key
+                        new \Jose\Object\JWK($jwk->toArray()),              // The symmetric or private key
                         ['RSA-OAEP'],      // A list of allowed key encryption algorithms
                         ['A256GCM'],       // A list of allowed content encryption algorithms
                         $recipient_index   // If decrypted, this variable will be set with the recipient index used to decrypt
