@@ -299,37 +299,14 @@ if(!checkEmpty($arr, $action))
                     //This goes to POST
                 case 'decrypt-jose':
                     include(__DIR__ . "/../libs/jose/autoload.php");
-                    //include(__DIR__ . "/../libs/phpseclib/rsa_autoload.php");
-
-                    // We load our private RSA key.
-                    /*$jwk = Jose\Factory\JWKFactory::createFromKeyFile(
-                        __DIR__ . '/keys/private.key',
-                        null,
-                        [
-                            'kid' => 'My Private RSA key',
-                            'use' => 'enc',
-                            'alg' => 'RSA-OAEP',
-                        ]
-                    );*/
 
                     $file = __DIR__ . '/../keys/private.key';
                     $contents = file_get_contents($file);
-
-                    /*$rsa = new \phpseclib\Crypt\RSA();
-                    $rsa->loadKey($contents);
-                    $rsa->setPrivateKey();
-                    $key = $rsa->getPrivateKey(\phpseclib\Crypt\RSA::PRIVATE_FORMAT_PKCS1);
-
-                    echo $key;*/
-
-                    //echo $contents;
 
                     // This is the input we want to load verify.
                     $input = @$_GET["input"];
 
                     $jwk = new \Jose\KeyConverter\RSAKey($contents);
-
-                    //echo \Jose\Util\RSA::decrypt($jwk, $input, 'sha256');
 
                     // We create our loader.
                     $loader = new Jose\Loader();
@@ -344,7 +321,7 @@ if(!checkEmpty($arr, $action))
                         $recipient_index   // If decrypted, this variable will be set with the recipient index used to decrypt
                     );
 
-                    $coreData["content"] = $jws;
+                    $coreData["content"] = $jws->getPayload();
                     break;
 
 				default:

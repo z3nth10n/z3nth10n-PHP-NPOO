@@ -16,7 +16,7 @@ function exc_manager($exc)
     $exceptionArray[] = $exc;
 }
 
-$errman = set_error_handler("err_manager");
+//$errman = set_error_handler("err_manager");
 
 // función de gestión de errores
 function err_manager($errno, $errstr, $errfile, $errline)

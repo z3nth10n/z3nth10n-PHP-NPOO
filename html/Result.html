@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>Report: Edit.txt&nbsp;&vert;&nbsp;Edit1.txt</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        font-size: .75em;
+      }
+      table.uc {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 1px solid #999EA2;
+      }
+      table.uc th {
+        padding: .45em .5em .45em 0;
+        vertical-align: text-top;
+        font-size: 1.2em;
+        font-weight: bold;
+        text-align: left;
+        color: #2d3740;
+        background-color: #F4F4F4;
+        border-bottom: 1px solid #999EA2;
+      }
+      table.uc th.filename {
+        padding-left: .3em;
+      }
+      table.uc td {
+        padding: .2em 0 .2em .4em;
+        vertical-align: text-top;
+        color: #595F62;
+        font-family: "Consolas", "Lucida Console", Monaco, monospace;
+        font-size: 1em;
+      }
+      table.uc td.data {
+        word-break: break-all;
+      }
+      table.uc td.diff {
+        color: #000000;
+        background-color: #ddebff;
+      }
+      table.uc td.missing_line {
+        background: repeating-linear-gradient(
+        to right,
+        white,
+        white 9px,
+        #CED6D9 1px,
+        #CED6D9 10px
+        );
+      }
+      table.uc td.ln {
+        background: #F4F4F4;
+        padding: 0 .5em;
+      }
+      table.uc td.symbol {
+        text-align: center;
+        background: #F4F4F4;
+        padding: 0 .3em 0 0;
+      }
+      .text_diff {
+        color: #E10000;
+      }
+      table.summary {
+        margin: 0 0 .75em 0;
+        padding: 0;
+      }
+      table.summary td {
+        padding: 0 1em;
+      }
+      table.summary td.summary_value {
+        border-right: 1px solid #B0BABF;
+      }
+      table.summary td.summary_label {
+        font-weight: bold;
+        padding: 0;
+      }
+      table.summary td:last-of-type {
+        border-right: 0;
+      }
+      #spacestabs_toggle {
+        float: right;
+      }
+    </style>
+    <script>
+      toggled = false;
+      function toggle_spaces_tabs(tab_val) {
+        var tab_replacer = "&raquo;";
+        var tab_restorer = "&emsp;"
+        for (i = 1; i < tab_val; i++) {
+          tab_replacer += "&nbsp;";
+          tab_restorer += "&emsp;";
+        }
+        tab_replace = toggled ? tab_restorer : tab_replacer;
+        sp_char = toggled ? "&nbsp;" : "&middot";
+        var re_tab = (toggled) ? new RegExp("»(?:&nbsp;){" + (tab_val - 1) +"}", "g") : new RegExp("(?:\u2003){" + tab_val +"}", "g");
+        var re_spc = (toggled) ? new RegExp("·", "g") : new RegExp("&nbsp;", "g");
+        var elems = document.getElementsByClassName("data"), i;
+        for (i = 0; i < elems.length; i++) {
+          if (elems[i].childNodes.length) {
+            elems[i].innerHTML = elems[i].innerHTML.replace(re_spc, sp_char);
+            elems[i].innerHTML = elems[i].innerHTML.replace(re_tab, tab_replace);
+          }
+        }
+        toggled = toggled ? false : true;
+      }
+    </script>
+  </head>
+  <body>
+    <div id="spacestabs_toggle">
+      <input type="checkbox" id="spacestabs" name="spacestabs" onclick="toggle_spaces_tabs(2);"/>
+      <label for="spacestabs">Show spaces / tabs</label>
+    </div>
+    <table class="summary" cellspacing=0 cellpadding=0>
+      <tr>
+        <td class="summary_label">Left file:</td>
+        <td class="summary_value">C:\Users\LVARO~1\AppData\Local\Temp\Edit.txt</td>
+      </tr>
+      <tr>
+        <td class="summary_label">Right file:</td>
+        <td class="summary_value">C:\Users\LVARO~1\AppData\Local\Temp\Edit1.txt</td>
+      </tr>
+    </table>
+    <table class="summary" cellspacing=0 cellpadding=0>
+      <tr>
+        <td class="summary_label">Report type:</td>
+        <td class="summary_value">All (Matching and Differences)</td>
+      </tr>
+    </table>
+    <table class="summary" cellspacing=0 cellpadding=0>
+      <tr>
+        <td class="summary_label">Summary:</td>
+        <td class="summary_value">0 Line(s) match   </td>
+        <td class="summary_value">1 Block(s) diff   </td>
+        <td class="summary_value">1 : 1 Line(s) diff</td>
+      </tr>
+    </table>
+    <table class="summary" cellspacing=0 cellpadding=0>
+      <tr>
+        <td class="summary_label">Ignore options:</td>
+        <td class="summary_value">Ignore line terminators</td>
+      </tr>
+    </table>
+    <table class="uc" cellspacing=0 cellpadding=0>
+      <tr>
+        <th></th>
+        <th></th>
+        <th class="filename">C:\Users\LVARO~1\AppData\Local\Temp\Edit.txt</th>
+        <th></th>
+        <th></th>
+        <th class="filename">C:\Users\LVARO~1\AppData\Local\Temp\Edit1.txt</th>
+      </tr>
+      <tr>
+        <td class="ln">1</td>
+        <td class="symbol">*</td>
+        <td class="data diff">eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ.<span class = "text_diff">L3Teg2RS</span>XX<span class = "text_diff">pp</span>4<span class = "text_diff">ja</span>k<span class = "text_diff">Lkl2</span>PQ<span class = "text_diff">gidJ5BIX</span>y<span class = "text_diff">P5QZM2B4</span>R<span class = "text_diff">aO0</span>v<span class = "text_diff">s55aT</span>2<span class = "text_diff">2D</span>9<span class = "text_diff">_dPl6d8</span>3<span class = "text_diff">Kv</span>X<span class = "text_diff">e</span>zM4<span class = "text_diff">YkO</span>n<span class = "text_diff">yo</span>F<span class = "text_diff">0JA0eLX3k8W4eWkHUh</span>g<span class = "text_diff">oYq</span>xg<span class = "text_diff">wQSWWh</span>j<span class = "text_diff">r</span>p<span class = "text_diff">DxcpN</span>d<span class = "text_diff">XbDlB6zVb_BK</span>f<span class = "text_diff">5upr</span>o<span class = "text_diff">5</span>q<span class = "text_diff">m23n</span>r<span class = "text_diff">_S</span>Okkq<span class = "text_diff">hKJGrw_sIXv</span>D1<span class = "text_diff">L</span>j<span class = "text_diff">Obur</span>L<span class = "text_diff">olDqojrn</span>v<span class = "text_diff">K5awG</span>tiF<span class = "text_diff">wk</span>P<span class = "text_diff">Zj</span>R<span class = "text_diff">h_</span>w<span class = "text_diff">h4z4buEfYsWJCKhTLU6a</span>G<span class = "text_diff">_Di</span>p<span class = "text_diff">mbAXq1o</span>9<span class = "text_diff">u1-cqiQ</span>JC<span class = "text_diff">0J</span>l<span class = "text_diff">P</span>J<span class = "text_diff">Rb</span>h6<span class = "text_diff">JJDmVc9</span>Y<span class = "text_diff">qBv0W0</span>r<span class = "text_diff">F</span>E<span class = "text_diff">a7W</span>5<span class = "text_diff">HA12TO-Rt</span>V4<span class = "text_diff">2tEPAp</span>r<span class = "text_diff">3</span>h<span class = "text_diff">NmD8Qw</span>z<span class = "text_diff">vxxZ</span>Y<span class = "text_diff">KpM</span>z<span class = "text_diff">o</span>B<span class = "text_diff">As</span>S<span class = "text_diff">QcvSKk878qe</span>O<span class = "text_diff">Acx3</span>p<span class = "text_diff">ZyoDZ6</span>W<span class = "text_diff">zD-LRu</span>sW<span class = "text_diff">y7n</span>Jw<span class = "text_diff">O</span>a<span class = "text_diff">6AC9</span>N<span class = "text_diff">s</span>L<span class = "text_diff">91</span>mv<span class = "text_diff">8W</span>sZ<span class = "text_diff">xWa</span>r<span class = "text_diff">9AnzOsKle</span>S<span class = "text_diff">J7k8I</span>4<span class = "text_diff">77</span>p<span class = "text_diff">X</span>E<span class = "text_diff">_H1g7XnFBg</span>mA<span class = "text_diff">4eg</span>F<span class = "text_diff">-721sa7</span>SO2<span class = "text_diff">L</span>tS<span class = "text_diff">440v1</span>y<span class = "text_diff">tA4</span>5<span class = "text_diff">04s</span>d<span class = "text_diff">jVYeOf</span>Wm<span class = "text_diff">RSU</span>4<span class = "text_diff">U</span>l<span class = "text_diff">jnUq</span>a<span class = "text_diff">Y</span>T<span class = "text_diff">d031</span>f<span class = "text_diff">zCevzNEO</span>0Q<span class = "text_diff">7m</span>n<span class = "text_diff">cn-sJ</span>A<span class = "text_diff">CVHiwQ</span>B<span class = "text_diff">9c7</span>0<span class = "text_diff">3</span>S<span class = "text_diff">vY</span>ZaF<span class = "text_diff">OyzU-vdXUqBRTR</span>6<span class = "text_diff">x0JvQ</span>d<span class = "text_diff">_l</span>F<span class = "text_diff">Ng</span>S<span class = "text_diff">S9pOQ</span>C5<span class = "text_diff">BQbAKOME9fjd</span>X<span class = "text_diff">i</span>w<span class = "text_diff">RUKfyHXCUAU</span>j8<span class = "text_diff">8</span>C<span class = "text_diff">JEMqxg3_V</span>YYf<span class = "text_diff">U</span>C<span class = "text_diff">04</span>G<span class = "text_diff">ahm</span>oy<span class = "text_diff">s</span>R<span class = "text_diff">9QU</span>p<span class = "text_diff">K3l8</span>4<span class = "text_diff">Z5</span>T<span class = "text_diff">LOi47SvO-N</span>k<span class = "text_diff">R-2wf7v4</span>k<span class = "text_diff">o8bZIR3E</span>6<span class = "text_diff">XFHFG9lWwdzR</span>_<span class = "text_diff">J</span>P<span class = "text_diff">z7fm0OFiY</span>B<span class = "text_diff">0</span>H<span class = "text_diff">N8XgWE</span>4<span class = "text_diff">bQ2tasYsmF</span>h<span class = "text_diff">WVfkeRZodnlqFvImSNjA</span>.<span class = "text_diff">GIGFv</span>4<span class = "text_diff">h_</span>n<span class = "text_diff">YkpBiA5</span>.<span class = "text_diff">1_66e</span>M<span class = "text_diff">Eb</span>.B<span class = "text_diff">J</span>T<span class = "text_diff">eza</span>Lu<span class = "text_diff">cvfluWQ8VEzgCQ</span></td>
+        <td class="separ"></td>
+        <td class="ln">1</td>
+        <td class="data diff">eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00i<span class = "text_diff">LCJ6aXAiOiJERUYi</span>fQ.<span class = "text_diff">jbNHUCu</span>X<span class = "text_diff">Yc</span>X<span class = "text_diff">ZWrHsJrPclV-fjYmFWwwPj</span>4<span class = "text_diff">t3</span>k<span class = "text_diff">AOt7</span>P<span class = "text_diff">ah</span>Q<span class = "text_diff">fsz0a1GaRrODcwKce4</span>yR<span class = "text_diff">tLyj</span>v2<span class = "text_diff">U7CtFMxt</span>9<span class = "text_diff">ah</span>3X<span class = "text_diff">TwIqm1m</span>z<span class = "text_diff">zP</span>M<span class = "text_diff">hO</span>4<span class = "text_diff">L</span>nF<span class = "text_diff">IRqMR</span>g<span class = "text_diff">s</span>x<span class = "text_diff">E</span>g<span class = "text_diff">Ii</span>j<span class = "text_diff">RqNOO</span>p<span class = "text_diff">E85M3UPBRqjYw0w</span>d<span class = "text_diff">jaq</span>f<span class = "text_diff">JT</span>o<span class = "text_diff">LVLwaHgUPCkO</span>q<span class = "text_diff">sH</span>r<span class = "text_diff">d</span>O<span class = "text_diff">OW</span>k<span class = "text_diff">xN20fZYy4Z1PQAC0r</span>k<span class = "text_diff">2W</span>q<span class = "text_diff">L</span>D<span class = "text_diff">0x7Za</span>1j<span class = "text_diff">dV6</span>Lv<span class = "text_diff">V</span>t<span class = "text_diff">d18</span>iF<span class = "text_diff">IaRqf2uNYcRe</span>P<span class = "text_diff">dyIn</span>R<span class = "text_diff">x</span>w<span class = "text_diff">H</span>Gp9J<span class = "text_diff">fRkV</span>C<span class = "text_diff">QILTfwH</span>l<span class = "text_diff">xQBKrw</span>J<span class = "text_diff">x</span>h<span class = "text_diff">ZOzdHrjjNjxNsjAsHGMix</span>6<span class = "text_diff">MAbUR0</span>Y<span class = "text_diff">T4hl</span>rE5<span class = "text_diff">9eriD</span>V<span class = "text_diff">xix</span>4<span class = "text_diff">uQ</span>r<span class = "text_diff">rC</span>h<span class = "text_diff">u</span>z<span class = "text_diff">WVz_k</span>Y<span class = "text_diff">9-</span>z<span class = "text_diff">v</span>B<span class = "text_diff">9</span>S<span class = "text_diff">DZnYDdfg</span>O<span class = "text_diff">NYUgTM</span>p<span class = "text_diff">bkMTV</span>Ws<span class = "text_diff">F40Jm</span>WJ<span class = "text_diff">6</span>w<span class = "text_diff">vGs3H</span>a<span class = "text_diff">aIx</span>N<span class = "text_diff">17UjQ</span>L<span class = "text_diff">e</span>m<span class = "text_diff">KgrS4-bq</span>v<span class = "text_diff">bn</span>s<span class = "text_diff">chh</span>Z<span class = "text_diff">TIGi5-f8C</span>r<span class = "text_diff">_</span>S<span class = "text_diff">wGo</span>4<span class = "text_diff">11VNYhN</span>p<span class = "text_diff">D4P1H2d</span>E<span class = "text_diff">j</span>mAF<span class = "text_diff">pn3</span>S<span class = "text_diff">dW3</span>O<span class = "text_diff">i6pPgK</span>2t<span class = "text_diff">vIpEwGU</span>S<span class = "text_diff">-Gi29-aCCNeu</span>y<span class = "text_diff">E2m</span>5d<span class = "text_diff">bF</span>W<span class = "text_diff">28G9HM</span>m<span class = "text_diff">vZHAky</span>4<span class = "text_diff">KHE4N</span>l<span class = "text_diff">NJTrH0</span>a<span class = "text_diff">BxQX_Gc7e</span>Tf<span class = "text_diff">9q</span>0<span class = "text_diff">0gJtK</span>Q<span class = "text_diff">5Ci</span>n<span class = "text_diff">XaUY</span>AB0<span class = "text_diff">x</span>S<span class = "text_diff">EbsNAC</span>Z<span class = "text_diff">uFLP</span>a<span class = "text_diff">wuxj_3</span>F<span class = "text_diff">Gn</span>6d<span class = "text_diff">HY</span>F<span class = "text_diff">Ok</span>S<span class = "text_diff">sat</span>C<span class = "text_diff">TcqV</span>5<span class = "text_diff">tiGJ</span>X<span class = "text_diff">G6ns-</span>w<span class = "text_diff">Dc682-G9M</span>j8<span class = "text_diff">H</span>C<span class = "text_diff">Iz</span>Y<span class = "text_diff">zakp-yZLIa</span>Y<span class = "text_diff">00</span>f<span class = "text_diff">g5xQdgKJrk0Qb</span>C<span class = "text_diff">tvbwiQ</span>Go<span class = "text_diff">up</span>y<span class = "text_diff">MV9f3</span>Rp<span class = "text_diff">EBJznPrq</span>4<span class = "text_diff">S</span>T<span class = "text_diff">ypxs</span>k<span class = "text_diff">dh6j</span>k<span class = "text_diff">sB</span>6<span class = "text_diff">T</span>_<span class = "text_diff">1fh</span>P<span class = "text_diff">qZMVt2</span>BH<span class = "text_diff">R</span>4<span class = "text_diff">p</span>h<span class = "text_diff">CBg</span>.<span class = "text_diff">9380DJUDH</span>4<span class = "text_diff">TQ</span>n<span class = "text_diff">nr7</span>.<span class = "text_diff">zEu</span>M<span class = "text_diff">QwRr</span>.B<span class = "text_diff">fdStBMcVnVR-2uj</span>TL<span class = "text_diff">j</span>u<span class = "text_diff">aA</span></td>
+      </tr>
+      <tr>
+  </body>
+</html>

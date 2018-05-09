@@ -88,6 +88,7 @@ final class Loader implements LoaderInterface
     private function loadAndDecrypt($input, Object\JWKSetInterface $jwk_set, array $allowed_key_encryption_algorithms, array $allowed_content_encryption_algorithms, &$recipient_index = null)
     {
         $jwt = $this->load($input);
+
         Assertion::isInstanceOf($jwt, Object\JWEInterface::class, 'The input is not a valid JWE');
         $decrypted = Decrypter::createDecrypter($allowed_key_encryption_algorithms, $allowed_content_encryption_algorithms, ['DEF', 'ZLIB', 'GZ']);
 
@@ -145,7 +146,9 @@ final class Loader implements LoaderInterface
             } elseif (array_key_exists('ciphertext', $data)) {
                 return $this->fromFlattenedSerializationRecipientToSerialization($data);
             }
-        } elseif (is_string($input)) {
+        }
+        elseif (is_string($input))
+        {
             return $this->fromCompactSerializationToSerialization($input);
         }
 
