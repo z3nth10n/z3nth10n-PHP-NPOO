@@ -77,7 +77,6 @@ if(!checkEmpty($arr, $action))
 					break;
 
                 case "resolve-captcha":
-
                     if(session_status() == PHP_SESSION_NONE)
                     {
                         //session_name("CookieName");
@@ -89,7 +88,7 @@ if(!checkEmpty($arr, $action))
                     if(empty($secret))
                         die("No secret!");
 
-                    $coreData["secret"] = $secret;
+                    //$coreData["secret"] = $secret;
 
                     $input = @$_POST["input"];
 
@@ -180,10 +179,7 @@ if(!checkEmpty($arr, $action))
 
                 case "captcha":
                     if (session_status() == PHP_SESSION_NONE)
-                    {
-                        //session_name("CookieName");
                         session_start();
-                    }
 
                     //$forceHeader = false;
                     include("libs/captcha/autoload.php");
