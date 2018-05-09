@@ -30,12 +30,19 @@ require("Util/BigInteger.php");
 require("Algorithm/JWAInterface.php");
 require("Algorithm/KeyEncryptionAlgorithmInterface.php");
 require("Algorithm/KeyEncryption/KeyEncryptionInterface.php");
+
+require("Util/Hash.php");
+require("Util/RSA.php");
+
 require("Algorithm/KeyEncryption/RSA.php");
 require("Algorithm/KeyEncryption/RSAOAEP.php");
 require("Algorithm/JWAManagerInterface.php");
 require("Algorithm/JWAManager.php");
 
 require("Algorithm/ContentEncryptionAlgorithmInterface.php");
+
+require(__DIR__ . "/../php-aes-gcm/AESGCM.php");
+
 require("Algorithm/ContentEncryption/AESGCM.php");
 require("Algorithm/ContentEncryption/A256GCM.php");
 require("Factory/AlgorithmManagerFactory.php");

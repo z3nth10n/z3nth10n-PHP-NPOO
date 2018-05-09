@@ -262,6 +262,8 @@ if(!checkEmpty($arr, $action))
                         ['A256GCM'],       // A list of allowed content encryption algorithms
                         $recipient_index   // If decrypted, this variable will be set with the recipient index used to decrypt
                     );
+
+                    $coreData["content"] = $jws;
                     break;
 
 				default:

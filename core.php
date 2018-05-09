@@ -55,7 +55,8 @@ function getErrorCaption($key)
 {
 	global $Error;
 
-	return StrFormat($Error[$key], array_slice(func_get_args(), 1)[0]);
+	//WIP in PHP 7 there is aproblem with the commented part
+	return StrFormat($Error[$key], null); //array_slice(func_get_args(), 1)[0]
 }
 
 function getErrors() 
