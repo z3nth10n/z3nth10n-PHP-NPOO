@@ -19,6 +19,9 @@ require(__DIR__ . "/../fg/ASN1/Construct.php");
 require(__DIR__ . "/../fg/ASN1/Identifier.php");
 require(__DIR__ . "/../fg/ASN1/Universal/Sequence.php");
 require(__DIR__ . "/../fg/ASN1/Universal/Integer.php");
+
+require(__DIR__ . "/../fg/ASN1/Base128.php");
+
 require(__DIR__ . "/../fg/ASN1/Universal/ObjectIdentifier.php");
 require(__DIR__ . "/../fg/ASN1/Universal/NullObject.php");
 require(__DIR__ . "/../fg/ASN1/Universal/OctetString.php");
@@ -78,6 +81,8 @@ require("Object/JWKSetPEM.php");
 require("Object/JWKSet.php");
 require("Object/JWKInterface.php");
 require("Object/JWK.php");
+
+require(__DIR__ . "/../fg/ASN1/Universal/BitString.php");
 
 require("KeyConverter/RSAKey.php");
 require("KeyConverter/KeyConverter.php");

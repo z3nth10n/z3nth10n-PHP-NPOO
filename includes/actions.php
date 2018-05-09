@@ -151,11 +151,33 @@ if(!checkEmpty($arr, $action))
                         ."\n".'Public keys are '.(strcmp($pkGeneratePublic,$pkImportPublic)?'different':'identical').'.';
                     break;*/
 
-                case "genkeys":
-                    include("includes/auth.php");
+                case "genkeys-jwk":
+                    include("auth.php");
 
                     $time_start = microtime(true);
-                    include('libs/phpseclib/rsa_autoload.php');
+                    include(__DIR__ . "/../libs/jose/autoload.php");
+
+                    $private_key = Jose\Factory\JWKFactory::createKey([ 'kty'  => 'RSA', 'size' => 4096]);
+                    $public_key = $private_key->toPublic();
+                    $rsa_key_private = new \Jose\KeyConverter\RSAKey($private_key);
+                    $rsa_key_public = new \Jose\KeyConverter\RSAKey($public_key);
+
+                    $fp = fopen($privFile, 'w') or die("File not found!");
+                    fwrite($fp, $rsa_key_private->toPEM());
+                    fclose($fp);
+
+                    $fp = fopen($pubFile, 'w') or die("File not found!");
+                    fwrite($fp, $rsa_key_public->toPEM());
+                    fclose($fp);
+
+                    $coreData["executionTime"] = (int)((microtime(true) - $time_start) * 1000);
+                    break;
+
+                case "genkeys":
+                    include("auth.php");
+
+                    $time_start = microtime(true);
+                    include(__DIR__ . "/../libs/phpseclib/rsa_autoload.php");
 
                     $rsa = new phpseclib\Crypt\RSA();
                     //$rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
@@ -182,7 +204,7 @@ if(!checkEmpty($arr, $action))
                         session_start();
 
                     //$forceHeader = false;
-                    include("libs/captcha/autoload.php");
+                    include(__DIR__ . "/../libs/captcha/autoload.php");
 
                     $builder = new Gregwar\Captcha\CaptchaBuilder;
                     $builder->build();
@@ -199,7 +221,7 @@ if(!checkEmpty($arr, $action))
                     break;
 
                 case "compute":
-                    include("includes/auth.php");
+                    include("auth.php");
                     $time_start = microtime(true);
 
                     $num = 100000;
@@ -234,7 +256,7 @@ if(!checkEmpty($arr, $action))
                     break;
 
                 case "decrypt":
-                        include('libs/phpseclib/rsa_autoload.php');
+                        include(__DIR__ . "/../libs/phpseclib/rsa_autoload.php");
                         $rsa = new \phpseclib\Crypt\RSA();
                         extract($rsa->createKey());
 
@@ -252,12 +274,12 @@ if(!checkEmpty($arr, $action))
 
                     //This goes to POST
                 case 'decrypt-jose':
-                    include("libs/jose/autoload.php");
+                    include(__DIR__ . "/../libs/jose/autoload.php");
 
                     // We load our private RSA key.
                     $jwk = Jose\Factory\JWKFactory::createFromKeyFile(
-                        'keys/private.key',
-                        'Password',
+                        __DIR__ . '/keys/private.key',
+                        null,
                         [
                             'kid' => 'My Private RSA key',
                             'use' => 'enc',

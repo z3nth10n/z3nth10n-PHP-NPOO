@@ -2,9 +2,11 @@
 
 //Iniciamos errores
 
+include('includes/error_manager.php');
+
 include('autoload.php');
 
-include('actions.php');
+include('includes/actions.php');
 
 //actions_main($coreData);
 
