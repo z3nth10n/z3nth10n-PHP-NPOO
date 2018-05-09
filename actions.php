@@ -155,7 +155,7 @@ if(!checkEmpty($arr, $action))
                     include("includes/auth.php");
 
                     $time_start = microtime(true);
-                    include('phpseclib/rsa_autoload.php');
+                    include('libs/phpseclib/rsa_autoload.php');
 
                     $rsa = new phpseclib\Crypt\RSA();
                     //$rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
@@ -233,8 +233,25 @@ if(!checkEmpty($arr, $action))
                     $coreData["executionTime"] = (int)((microtime(true) - $time_start) * 1000);
                     break;
 
+                case "decrypt":
+                        include('libs/phpseclib/rsa_autoload.php');
+                        $rsa = new \phpseclib\Crypt\RSA();
+                        extract($rsa->createKey());
+
+                        $plaintext = 'terrafrost';
+
+                        //$rsa->loadKey($privatekey);
+                        //$ciphertext = $rsa->encrypt($plaintext);
+
+                        $publickey = file_get_contents("keys/public.key");
+                        $input = @$_GET["input"];
+
+                        $rsa->loadKey($publickey);
+                        $coreData["msg"] = $rsa->decrypt($input);
+                    break;
+
                     //This goes to POST
-                case 'decrypt':
+                case 'decrypt-jose':
                     include("libs/jose/autoload.php");
 
                     // We load our private RSA key.
