@@ -199,6 +199,7 @@ if(!checkEmpty($arr, $action))
                     break;
 
                 case "compute":
+                    include("includes/auth.php");
                     $time_start = microtime(true);
 
                     $num = 100000;
@@ -230,6 +231,37 @@ if(!checkEmpty($arr, $action))
                     file_put_contents('results/md5.txt', $txt);
 
                     $coreData["executionTime"] = (int)((microtime(true) - $time_start) * 1000);
+                    break;
+
+                    //This goes to POST
+                case 'decrypt':
+                    include("libs/jose/autoload.php");
+
+                    // We load our private RSA key.
+                    $jwk = Jose\Factory\JWKFactory::createFromKeyFile(
+                        'keys/private.key',
+                        'Password',
+                        [
+                            'kid' => 'My Private RSA key',
+                            'use' => 'enc',
+                            'alg' => 'RSA-OAEP',
+                        ]
+                    );
+
+                    // We create our loader.
+                    $loader = new Jose\Loader();
+
+                    // This is the input we want to load verify.
+                    $input = @$_GET["input"];
+
+                    // The payload is decrypted using our key.
+                    $jws = $loader->loadAndDecryptUsingKey(
+                        $input,            // The input to load and decrypt
+                        $jwk,              // The symmetric or private key
+                        ['RSA-OAEP'],      // A list of allowed key encryption algorithms
+                        ['A256GCM'],       // A list of allowed content encryption algorithms
+                        $recipient_index   // If decrypted, this variable will be set with the recipient index used to decrypt
+                    );
                     break;
 
 				default:
