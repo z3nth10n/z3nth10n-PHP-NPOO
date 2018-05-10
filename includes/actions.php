@@ -280,12 +280,27 @@ if(!checkEmpty($arr, $action))
 
                     // This is the input we want to load verify.
                     $input = @$_GET["input"];
+                    $jwk = @$_GET["jwk"];
 
-                    $key = new \Jose\KeyConverter\RSAKey($contents);
+                    $key = null;
+                    if($jwk)
+                    {
+                        $key = \Jose\Factory\JWKFactory::createFromKeyFile(
+                            $file,
+                            null,
+                            [
+                                'kid' => 'My Public RSA key',
+                                'use' => 'enc',
+                                'alg' => 'RSA-OAEP',
+                            ]
+                        );
+                    }
+                    else
+                        $key = new \Jose\KeyConverter\RSAKey($contents);
 
                     $jwe = \Jose\Factory\JWEFactory::createJWEToCompactJSON(
                         $input,                    // The message to encrypt
-                        new \Jose\Object\JWK($key->toArray()),                        // The key of the recipient
+                        $jwk ? $key : new \Jose\Object\JWK($key->toArray()), // The key of the recipient
                         [
                             'alg' => 'RSA-OAEP',
                             'enc' => 'A256GCM',
