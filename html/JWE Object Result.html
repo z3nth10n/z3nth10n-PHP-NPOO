@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>Report: Edit.txt&nbsp;&vert;&nbsp;Edit1.txt</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        font-size: .75em;
+      }
+      table.uc {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 1px solid #999EA2;
+      }
+      table.uc th {
+        padding: .45em .5em .45em 0;
+        vertical-align: text-top;
+        font-size: 1.2em;
+        font-weight: bold;
+        text-align: left;
+        color: #2d3740;
+        background-color: #F4F4F4;
+        border-bottom: 1px solid #999EA2;
+      }
+      table.uc th.filename {
+        padding-left: .3em;
+      }
+      table.uc td {
+        padding: .2em 0 .2em .4em;
+        vertical-align: text-top;
+        color: #595F62;
+        font-family: "Consolas", "Lucida Console", Monaco, monospace;
+        font-size: 1em;
+      }
+      table.uc td.data {
+        word-break: break-all;
+      }
+      table.uc td.diff {
+        color: #000000;
+        background-color: #ddebff;
+      }
+      table.uc td.missing_line {
+        background: repeating-linear-gradient(
+        to right,
+        white,
+        white 9px,
+        #CED6D9 1px,
+        #CED6D9 10px
+        );
+      }
+      table.uc td.ln {
+        background: #F4F4F4;
+        padding: 0 .5em;
+      }
+      table.uc td.symbol {
+        text-align: center;
+        background: #F4F4F4;
+        padding: 0 .3em 0 0;
+      }
+      .text_diff {
+        color: #E10000;
+      }
+      table.summary {
+        margin: 0 0 .75em 0;
+        padding: 0;
+      }
+      table.summary td {
+        padding: 0 1em;
+      }
+      table.summary td.summary_value {
+        border-right: 1px solid #B0BABF;
+      }
+      table.summary td.summary_label {
+        font-weight: bold;
+        padding: 0;
+      }
+      table.summary td:last-of-type {
+        border-right: 0;
+      }
+      #spacestabs_toggle {
+        float: right;
+      }
+    </style>
+    <script>
+      toggled = false;
+      function toggle_spaces_tabs(tab_val) {
+        var tab_replacer = "&raquo;";
+        var tab_restorer = "&emsp;"
+        for (i = 1; i < tab_val; i++) {
+          tab_replacer += "&nbsp;";
+          tab_restorer += "&emsp;";
+        }
+        tab_replace = toggled ? tab_restorer : tab_replacer;
+        sp_char = toggled ? "&nbsp;" : "&middot";
+        var re_tab = (toggled) ? new RegExp("»(?:&nbsp;){" + (tab_val - 1) +"}", "g") : new RegExp("(?:\u2003){" + tab_val +"}", "g");
+        var re_spc = (toggled) ? new RegExp("·", "g") : new RegExp("&nbsp;", "g");
+        var elems = document.getElementsByClassName("data"), i;
+        for (i = 0; i < elems.length; i++) {
+          if (elems[i].childNodes.length) {
+            elems[i].innerHTML = elems[i].innerHTML.replace(re_spc, sp_char);
+            elems[i].innerHTML = elems[i].innerHTML.replace(re_tab, tab_replace);
+          }
+        }
+        toggled = toggled ? false : true;
+      }
+    </script>
+  </head>
+  <body>
+    <div id="spacestabs_toggle">
+      <input type="checkbox" id="spacestabs" name="spacestabs" onclick="toggle_spaces_tabs(2);"/>
+      <label for="spacestabs">Show spaces / tabs</label>
+    </div>
+    <table class="summary" cellspacing=0 cellpadding=0>
+      <tr>
+        <td class="summary_label">Left file:</td>
+        <td class="summary_value">C:\Users\LVARO~1\AppData\Local\Temp\Edit.txt</td>
+      </tr>
+      <tr>
+        <td class="summary_label">Right file:</td>
+        <td class="summary_value">C:\Users\LVARO~1\AppData\Local\Temp\Edit1.txt</td>
+      </tr>
+    </table>
+    <table class="summary" cellspacing=0 cellpadding=0>
+      <tr>
+        <td class="summary_label">Report type:</td>
+        <td class="summary_value">All (Matching and Differences)</td>
+      </tr>
+    </table>
+    <table class="summary" cellspacing=0 cellpadding=0>
+      <tr>
+        <td class="summary_label">Summary:</td>
+        <td class="summary_value">30 Line(s) match   </td>
+        <td class="summary_value">3 Block(s) diff   </td>
+        <td class="summary_value">9 : 9 Line(s) diff</td>
+      </tr>
+    </table>
+    <table class="summary" cellspacing=0 cellpadding=0>
+      <tr>
+        <td class="summary_label">Ignore options:</td>
+        <td class="summary_value">Ignore line terminators</td>
+      </tr>
+    </table>
+    <table class="uc" cellspacing=0 cellpadding=0>
+      <tr>
+        <th></th>
+        <th></th>
+        <th class="filename">C:\Users\LVARO~1\AppData\Local\Temp\Edit.txt</th>
+        <th></th>
+        <th></th>
+        <th class="filename">C:\Users\LVARO~1\AppData\Local\Temp\Edit1.txt</th>
+      </tr>
+      <tr>
+        <td class="ln">1</td>
+        <td class="symbol"></td>
+        <td class="data">Jose\Object\JWE&nbsp;Object</td>
+        <td class="separ"></td>
+        <td class="ln">1</td>
+        <td class="data">Jose\Object\JWE&nbsp;Object</td>
+      </tr>
+      <tr>
+        <td class="ln">2</td>
+        <td class="symbol"></td>
+        <td class="data">(</td>
+        <td class="separ"></td>
+        <td class="ln">2</td>
+        <td class="data">(</td>
+      </tr>
+      <tr>
+        <td class="ln">3</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[recipients:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;Array</td>
+        <td class="separ"></td>
+        <td class="ln">3</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[recipients:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;Array</td>
+      </tr>
+      <tr>
+        <td class="ln">4</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(</td>
+        <td class="separ"></td>
+        <td class="ln">4</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(</td>
+      </tr>
+      <tr>
+        <td class="ln">5</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[0]&nbsp;=&gt;&nbsp;Jose\Object\Recipient&nbsp;Object</td>
+        <td class="separ"></td>
+        <td class="ln">5</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[0]&nbsp;=&gt;&nbsp;Jose\Object\Recipient&nbsp;Object</td>
+      </tr>
+      <tr>
+        <td class="ln">6</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(</td>
+        <td class="separ"></td>
+        <td class="ln">6</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(</td>
+      </tr>
+      <tr>
+        <td class="ln">7</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[headers:Jose\Object\Recipient:private]&nbsp;=&gt;&nbsp;Array</td>
+        <td class="separ"></td>
+        <td class="ln">7</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[headers:Jose\Object\Recipient:private]&nbsp;=&gt;&nbsp;Array</td>
+      </tr>
+      <tr>
+        <td class="ln">8</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(</td>
+        <td class="separ"></td>
+        <td class="ln">8</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(</td>
+      </tr>
+      <tr>
+        <td class="ln">9</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+        <td class="separ"></td>
+        <td class="ln">9</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+      </tr>
+      <tr>
+        <td class="ln">10</td>
+        <td class="symbol"></td>
+        <td class="data"></td>
+        <td class="separ"></td>
+        <td class="ln">10</td>
+        <td class="data"></td>
+      </tr>
+      <tr>
+        <td class="ln">11</td>
+        <td class="symbol">*</td>
+        <td class="data diff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[encrypted_key:Jose\Object\Recipient:private]&nbsp;=&gt;&nbsp;<span class = "text_diff">3/</span>ï¿½<span class = "text_diff">Ð</span>ï¿½ï¿½<span class = "text_diff">b</span>ï¿½<span class = "text_diff">W</span>ï¿½ï¿½ï¿½ï¿½ï¿½<span class = "text_diff">ÜŸy</span>ï¿½<span class = "text_diff">è²²D</span>ï¿½ï¿½<span class = "text_diff">ï¿½ï¿½Z</span>ï¿½<span class = "text_diff">f</span></td>
+        <td class="separ"></td>
+        <td class="ln">11</td>
+        <td class="data diff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[encrypted_key:Jose\Object\Recipient:private]&nbsp;=&gt;&nbsp;<span class = "text_diff">L</span>ï¿½ï¿½<span class = "text_diff"></span>ï¿½ï¿½<span class = "text_diff">&gt;t</span>ï¿½<span class = "text_diff">M</span>ï¿½ï¿½ï¿½ï¿½<span class = "text_diff">P</span>ï¿½<span class = "text_diff">J</span>ï¿½<span class = "text_diff">&vert;D</span>ï¿½<span class = "text_diff">QYU&lt;d/je</span>ï¿½<span class = "text_diff">gï¿½{ï¿½ï¿½#ï¿½#~ï¿½!ï¿½Iwï¿½ï¿½ß¶yï¿½p$ï¿½=~</span></td>
+      </tr>
+      <tr>
+        <td class="ln"></td>
+        <td class="symbol">!&gt;</td>
+        <td class="data missing_line"></td>
+        <td class="separ"></td>
+        <td class="ln">12</td>
+        <td class="data diff"><span class = "text_diff">?ï¿½ï¿½p&nbsp;L{ï¿½Bï¿½7ÉŠPÞ™ï¿½O.ï¿½Nï¿½ï¿½Å¬ï¿½ï¿½Sï¿½.ï¿½J@ï¿½ï¿½Ð¿ï¿½ï¿½ï¿½zï¿½IXNuP+pÒ¦ï¿½&emsp;&emsp;ï¿½\q&amp;ï¿½Hï¿½ï¿½ï¿½\mÇï¿½</span></td>
+      </tr>
+      <tr>
+        <td class="ln"></td>
+        <td class="symbol">!&gt;</td>
+        <td class="data missing_line"></td>
+        <td class="separ"></td>
+        <td class="ln">13</td>
+        <td class="data diff"><span class = "text_diff">3</span></td>
+      </tr>
+      <tr>
+        <td class="ln">12</td>
+        <td class="symbol">*</td>
+        <td class="data diff">ï¿½ï¿½ï¿½<span class = "text_diff">g</span>ï¿½<span class = "text_diff"></span>ï¿½<span class = "text_diff"></span>ï¿½ï¿½ï¿½Eï¿½<span class = "text_diff">Ý™</span>ï¿½<span class = "text_diff">&lt;</span>ï¿½<span class = "text_diff">&lt;g</span>$<span class = "text_diff">&lt;</span>ï¿½<span class = "text_diff">&vert;&emsp;&emsp;</span>ï¿½<span class = "text_diff">c</span><span class = "text_diff">e</span>ï¿½ï¿½ï¿½ï¿½</td>
+        <td class="separ"></td>
+        <td class="ln">14</td>
+        <td class="data diff"><span class = "text_diff">;</span>ï¿½<span class = "text_diff">M</span>ï¿½<span class = "text_diff">f</span>ï¿½<span class = "text_diff">&apos;</span>ï¿½<span class = "text_diff">Zs</span>ï¿½<span class = "text_diff">K#K</span>ï¿½ï¿½<span class = "text_diff">V</span>ï¿½<span class = "text_diff">Ì§;ï¿½&nbsp;Caï¿½(ï¿½ï¿½Hï¿½Nï¿½Aï¿½qÞ°ï¿½:ï¿½ï¿½ï¿½</span>E<span class = "text_diff">[</span>ï¿½<span class = "text_diff">ï¿½ï¿½9ï¿½ï¿½ï¿½ï¿½u?ï¿½ï¿½Bï¿½eï¿½Gï¿½.tCÍ¹C8ï¿½/ï¿½ï¿½</span><span class = "text_diff">)</span>ï¿½ï¿½<span class = "text_diff">&gt;ï¿½Qï¿½vï¿½ï¿½bfï¿½ï¿½Qï¿½ï¿½ï¿½^Z</span>$<span class = "text_diff">)</span>ï¿½<span class = "text_diff">qB</span>ï¿½<span class = "text_diff">ï¿½Lï¿½ï¿½ï¿½dï¿½Ý„&emsp;&emsp;W+][</span><span class = "text_diff">$i</span>ï¿½ï¿½<span class = "text_diff">ï¿½&vert;0ï¿½ï¿½Aï¿½ï¿½zï¿½ï¿½Yi2.Aï¿½ï¿½NÃŽjï¿½ï¿½.ï¿½+ëŽ³Vï¿½ï¿½~OIï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½y</span>ï¿½ï¿½</td>
+      </tr>
+      <tr>
+        <td class="ln">13</td>
+        <td class="symbol">*</td>
+        <td class="data diff"><span class = "text_diff">=zx</span>ï¿½<span class = "text_diff">&emsp;&emsp;eG</span>ï¿½ï¿½ï¿½<span class = "text_diff">Õ•N</span>ï¿½ï¿½<span class = "text_diff">4</span>ï¿½<span class = "text_diff">]it</span>ï¿½<span class = "text_diff">t</span>ï¿½<span class = "text_diff">YR</span>ï¿½<span class = "text_diff">gE?ÞŸ2NjR</span>ï¿½ï¿½<span class = "text_diff">_,</span>ï¿½ï¿½<span class = "text_diff">;</span>ï¿½ï¿½<span class = "text_diff">W</span>ï¿½ï¿½<span class = "text_diff">.</span>ï¿½ï¿½<span class = "text_diff">utpC</span>ï¿½<span class = "text_diff"></span>ï¿½ï¿½<span class = "text_diff">&nbsp;</span>ï¿½ï¿½<span class = "text_diff"></span>ï¿½<span class = "text_diff">ï¿½ï¿½Ð»ï¿½</span>vï¿½<span class = "text_diff">~</span>ï¿½<span class = "text_diff">V</span>ï¿½<span class = "text_diff">c</span>ï¿½<span class = "text_diff">])</span>ï¿½ï¿½<span class = "text_diff">2y</span>ï¿½<span class = "text_diff">&amp;</span>ï¿½ï¿½<span class = "text_diff"></span>ï¿½ï¿½<span class = "text_diff">J</span>ï¿½ï¿½<span class = "text_diff">ï¿½_ï¿½</span>Bï¿½<span class = "text_diff">D&quot;</span>ï¿½<span class = "text_diff">z</span>ï¿½<span class = "text_diff">/</span>ï¿½ï¿½<span class = "text_diff">d,C</span>ï¿½<span class = "text_diff">xÞ½Q</span>ï¿½<span class = "text_diff">m</span>ï¿½<span class = "text_diff">GA5_</span>ï¿½<span class = "text_diff">&amp;U</span>ï¿½ï¿½ï¿½<span class = "text_diff">v</span>ï¿½<span class = "text_diff">Q</span>ï¿½<span class = "text_diff">Ô\</span>ï¿½ï¿½ï¿½<span class = "text_diff">gÏª</span>ï¿½<span class = "text_diff">@</span>ï¿½<span class = "text_diff">Nå¿¬{</span>ï¿½<span class = "text_diff">ï</span>¿<span class = "text_diff">½6</span>ï¿½<span class = "text_diff">%</span>ï¿½ï¿½ï¿½<span class = "text_diff">Ä­</span>ï¿½ï¿½<span class = "text_diff"></span>ï¿½<span class = "text_diff">\{6</span>ï¿½<span class = "text_diff"></span>ï¿½<span class = "text_diff">sCE</span>ï¿½ï¿½<span class = "text_diff"></span>ï¿½<span class = "text_diff">T</span>ï¿½<span class = "text_diff">X</span>ï¿½<span class = "text_diff"></span>ï¿½<span class = "text_diff">ï¿½?ï¿½[ï¿½</span>S<span class = "text_diff">fG</span>ï¿½ï¿½<span class = "text_diff">q/&emsp;&emsp;Uk</span>ï¿½<span class = "text_diff">ï¿½!+ï¿½ï¿½ï¿½n</span>Rï¿½</td>
+        <td class="separ"></td>
+        <td class="ln">15</td>
+        <td class="data diff"><span class = "text_diff">$X</span>ï¿½ï¿½<span class = "text_diff">\</span>ï¿½<span class = "text_diff"></span>ï¿½<span class = "text_diff"></span>ï¿½ï¿½<span class = "text_diff"></span>ï¿½ï¿½<span class = "text_diff">&quot;Ì–</span>ï¿½ï¿½ï¿½<span class = "text_diff">C</span>ï¿½ï¿½<span class = "text_diff"></span>ï¿½ï¿½ï¿½ï¿½ï¿½<span class = "text_diff">Wr</span>ï¿½ï¿½<span class = "text_diff">4E</span>ï¿½ï¿½ï¿½<span class = "text_diff">Y@</span>ï¿½ï¿½<span class = "text_diff">h</span>ï¿½<span class = "text_diff">4</span>vï¿½ï¿½<span class = "text_diff">Ø‡</span>ï¿½<span class = "text_diff">Þ˜</span>ï¿½<span class = "text_diff">&vert;</span>ï¿½<span class = "text_diff"></span>ï¿½ï¿½<span class = "text_diff">&gt;</span>ï¿½ï¿½ï¿½<span class = "text_diff">&emsp;&emsp;Ú¯y</span>ï¿½<span class = "text_diff">j}</span>ï¿½<span class = "text_diff">oD</span>ï¿½Bï¿½<span class = "text_diff">][e`</span>ï¿½<span class = "text_diff">^H</span>ï¿½<span class = "text_diff">Y</span>ï¿½ï¿½ï¿½ï¿½<span class = "text_diff">3DN6H</span>ï¿½ï¿½ï¿½ï¿½<span class = "text_diff">!=</span>ï¿½<span class = "text_diff">&emsp;&emsp;</span>ï¿½<span class = "text_diff">7</span>ï¿½ï¿½ï¿½<span class = "text_diff"></span>ï¿½<span class = "text_diff">+</span>ï¿½<span class = "text_diff">dx2n&amp;</span>ï¿½<span class = "text_diff">E</span>ï¿½<span class = "text_diff">}Ñ</span>¿ï¿½<span class = "text_diff">&emsp;&emsp;</span>ï¿½ï¿½<span class = "text_diff">;;</span>ï¿½ï¿½ï¿½<span class = "text_diff">H</span>ï¿½<span class = "text_diff">K</span>ï¿½<span class = "text_diff">B=l</span>ï¿½<span class = "text_diff">p</span>ï¿½<span class = "text_diff">&quot;</span>ï¿½<span class = "text_diff">=</span>ï¿½ï¿½<span class = "text_diff">&amp;KÌ§</span>ï¿½<span class = "text_diff">Zx`</span>ï¿½<span class = "text_diff">0M&lt;</span>S<span class = "text_diff">{</span>ï¿½<span class = "text_diff">-K</span>ï¿½ï¿½Rï¿½</td>
+      </tr>
+      <tr>
+        <td class="ln">14</td>
+        <td class="symbol">&lt;!</td>
+        <td class="data diff"><span class = "text_diff"></span></td>
+        <td class="separ"></td>
+        <td class="ln"></td>
+        <td class="data missing_line"></td>
+      </tr>
+      <tr>
+        <td class="ln">15</td>
+        <td class="symbol">&lt;!</td>
+        <td class="data diff"><span class = "text_diff">Gï¿½&emsp;&emsp;ï¿½ï¿½Lchï¿½tï¿½ï¿½!ï¿½ï¿½1bï¿½ï¿½6Mxï¿½ï¿½ï¿½ï¿½ï¿½&emsp;&emsp;ï¿½ï¿½kTï¿½\:ï¿½éšï¿½ï¿½&nbsp;ï¿½Jï¿½-ï¿½6ï¿½&vert;ï¿½Rï¿½cï¿½ï¿½</span></td>
+        <td class="separ"></td>
+        <td class="ln"></td>
+        <td class="data missing_line"></td>
+      </tr>
+      <tr>
+        <td class="ln">16</td>
+        <td class="symbol">&lt;!</td>
+        <td class="data diff"><span class = "text_diff">ï¿½ï¿½ï¿½ï¿½&nbsp;ï¿½buï¿½uï¿½=Mï¿½Y^#*ï¿½ï¿½ï¿½ï¿½å‚‡ï¿½&quot;ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½wï¿½j$!fï¿½lï¿½ï¿½Ô‡ï¿½ï¿½ï¿½&nbsp;ï¿½N0ï¿½ï¿½ï¿½-ï¿½tï¿½\ï¿½iï¿½ï¿½hï¿½ï¿½ï¿½&gt;ï¿½\ï¿½qï¿½(Ú™Mï¿½jï¿½ï¿½xuZ!ï¿½*EDï¿½ï¿½MnVï¿½ï¿½ï¿½Õ¿Bï¿½(6&nbsp;Ø˜Cï¿½ï¿½&vert;ï¿½/ï¿½F%IËžï¿½ï¿½ï¿½f</span></td>
+        <td class="separ"></td>
+        <td class="ln"></td>
+        <td class="data missing_line"></td>
+      </tr>
+      <tr>
+        <td class="ln">17</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[recipient_key:Jose\Object\Recipient:private]&nbsp;=&gt;&nbsp;</td>
+        <td class="separ"></td>
+        <td class="ln">16</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[recipient_key:Jose\Object\Recipient:private]&nbsp;=&gt;&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="ln">18</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+        <td class="separ"></td>
+        <td class="ln">17</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+      </tr>
+      <tr>
+        <td class="ln">19</td>
+        <td class="symbol"></td>
+        <td class="data"></td>
+        <td class="separ"></td>
+        <td class="ln">18</td>
+        <td class="data"></td>
+      </tr>
+      <tr>
+        <td class="ln">20</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+        <td class="separ"></td>
+        <td class="ln">19</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+      </tr>
+      <tr>
+        <td class="ln">21</td>
+        <td class="symbol"></td>
+        <td class="data"></td>
+        <td class="separ"></td>
+        <td class="ln">20</td>
+        <td class="data"></td>
+      </tr>
+      <tr>
+        <td class="ln">22</td>
+        <td class="symbol">*</td>
+        <td class="data diff">&nbsp;&nbsp;&nbsp;&nbsp;[ciphertext:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;<span class = "text_diff"></span>ï¿½<span class = "text_diff">}</span>ï¿½ï¿½</td>
+        <td class="separ"></td>
+        <td class="ln">21</td>
+        <td class="data diff">&nbsp;&nbsp;&nbsp;&nbsp;[ciphertext:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;ï¿½ï¿½<span class = "text_diff">cï¿½y</span>ï¿½</td>
+      </tr>
+      <tr>
+        <td class="ln">23</td>
+        <td class="symbol">*</td>
+        <td class="data diff">&nbsp;&nbsp;&nbsp;&nbsp;[iv:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;<span class = "text_diff">S,</span>ï¿½<span class = "text_diff">P@Gh</span>ï¿½<span class = "text_diff">&gt;{</span>ï¿½ï¿½</td>
+        <td class="separ"></td>
+        <td class="ln">22</td>
+        <td class="data diff">&nbsp;&nbsp;&nbsp;&nbsp;[iv:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;ï¿½ï¿½<span class = "text_diff">Ý¥</span>ï¿½ï¿½<span class = "text_diff">ï¿½&emsp;&emsp;</span></td>
+      </tr>
+      <tr>
+        <td class="ln"></td>
+        <td class="symbol">!&gt;</td>
+        <td class="data missing_line"></td>
+        <td class="separ"></td>
+        <td class="ln">23</td>
+        <td class="data diff"><span class = "text_diff">ï¿½ï¿½D</span></td>
+      </tr>
+      <tr>
+        <td class="ln">24</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[aad:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;</td>
+        <td class="separ"></td>
+        <td class="ln">24</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[aad:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="ln">25</td>
+        <td class="symbol">*</td>
+        <td class="data diff">&nbsp;&nbsp;&nbsp;&nbsp;[tag:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;ï¿½ï¿½<span class = "text_diff">e(,</span>ï¿½<span class = "text_diff">.R</span>ï¿½<span class = "text_diff">Ø©</span>ï¿½<span class = "text_diff">&amp;</span></td>
+        <td class="separ"></td>
+        <td class="ln">25</td>
+        <td class="data diff">&nbsp;&nbsp;&nbsp;&nbsp;[tag:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;<span class = "text_diff">R</span>ï¿½<span class = "text_diff"></span>ï¿½<span class = "text_diff">2Z@</span>ï¿½<span class = "text_diff">4ï¿½</span>ï¿½<span class = "text_diff">lP</span>ï¿½<span class = "text_diff">ï¿½</span></td>
+      </tr>
+      <tr>
+        <td class="ln">26</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[shared_headers:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;Array</td>
+        <td class="separ"></td>
+        <td class="ln">26</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[shared_headers:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;Array</td>
+      </tr>
+      <tr>
+        <td class="ln">27</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(</td>
+        <td class="separ"></td>
+        <td class="ln">27</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(</td>
+      </tr>
+      <tr>
+        <td class="ln">28</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+        <td class="separ"></td>
+        <td class="ln">28</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+      </tr>
+      <tr>
+        <td class="ln">29</td>
+        <td class="symbol"></td>
+        <td class="data"></td>
+        <td class="separ"></td>
+        <td class="ln">29</td>
+        <td class="data"></td>
+      </tr>
+      <tr>
+        <td class="ln">30</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[shared_protected_headers:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;Array</td>
+        <td class="separ"></td>
+        <td class="ln">30</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[shared_protected_headers:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;Array</td>
+      </tr>
+      <tr>
+        <td class="ln">31</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(</td>
+        <td class="separ"></td>
+        <td class="ln">31</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(</td>
+      </tr>
+      <tr>
+        <td class="ln">32</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[alg]&nbsp;=&gt;&nbsp;RSA-OAEP</td>
+        <td class="separ"></td>
+        <td class="ln">32</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[alg]&nbsp;=&gt;&nbsp;RSA-OAEP</td>
+      </tr>
+      <tr>
+        <td class="ln">33</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[enc]&nbsp;=&gt;&nbsp;A256GCM</td>
+        <td class="separ"></td>
+        <td class="ln">33</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[enc]&nbsp;=&gt;&nbsp;A256GCM</td>
+      </tr>
+      <tr>
+        <td class="ln">34</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[zip]&nbsp;=&gt;&nbsp;DEF</td>
+        <td class="separ"></td>
+        <td class="ln">34</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[zip]&nbsp;=&gt;&nbsp;DEF</td>
+      </tr>
+      <tr>
+        <td class="ln">35</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+        <td class="separ"></td>
+        <td class="ln">35</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+      </tr>
+      <tr>
+        <td class="ln">36</td>
+        <td class="symbol"></td>
+        <td class="data"></td>
+        <td class="separ"></td>
+        <td class="ln">36</td>
+        <td class="data"></td>
+      </tr>
+      <tr>
+        <td class="ln">37</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[encoded_shared_protected_headers:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00iLCJ6aXAiOiJERUYifQ</td>
+        <td class="separ"></td>
+        <td class="ln">37</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[encoded_shared_protected_headers:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00iLCJ6aXAiOiJERUYifQ</td>
+      </tr>
+      <tr>
+        <td class="ln">38</td>
+        <td class="symbol"></td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[payload:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;hola</td>
+        <td class="separ"></td>
+        <td class="ln">38</td>
+        <td class="data">&nbsp;&nbsp;&nbsp;&nbsp;[payload:Jose\Object\JWE:private]&nbsp;=&gt;&nbsp;hola</td>
+      </tr>
+      <tr>
+        <td class="ln">39</td>
+        <td class="symbol"></td>
+        <td class="data">)</td>
+        <td class="separ"></td>
+        <td class="ln">39</td>
+        <td class="data">)</td>
+      </tr>
+      <tr>
+  </body>
+</html>

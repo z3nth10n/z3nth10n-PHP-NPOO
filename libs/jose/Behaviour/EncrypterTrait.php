@@ -147,7 +147,7 @@ trait EncrypterTrait
         }
 
         if (null === $method) {
-            return;
+            return null;
         }
 
         $compression_method = $this->getCompressionManager()->getCompressionAlgorithm($method);

@@ -151,16 +151,35 @@ if(!checkEmpty($arr, $action))
                         ."\n".'Public keys are '.(strcmp($pkGeneratePublic,$pkImportPublic)?'different':'identical').'.';
                     break;*/
 
-                case "genkeys-jwk":
+                case "genkeys":
                     include("auth.php");
 
                     $time_start = microtime(true);
                     include(__DIR__ . "/../libs/jose/autoload.php");
+                    include(__DIR__ . "/../libs/phpseclib/rsa_autoload.php");
+
+                    $rsa = new phpseclib\Crypt\RSA();
+                    //$rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
+                    $result = $rsa->createKey(4096);
+
+                    $seclib_et = (int)((microtime(true) - $time_start));
+                    $time_start = microtime(true);
 
                     $private_key = Jose\Factory\JWKFactory::createKey([ 'kty'  => 'RSA', 'size' => 4096]);
                     $public_key = $private_key->toPublic();
                     $rsa_key_private = new \Jose\KeyConverter\RSAKey($private_key);
                     $rsa_key_public = new \Jose\KeyConverter\RSAKey($public_key);
+
+                    $priv_slib = str_replace(".key", "-seclib.key", $privFile);
+                    $pub_slib = str_replace(".key", "-seclib.key", $pubFile);
+
+                    $fp = fopen($priv_slib, 'w') or die("File not found!");
+                    fwrite($fp, $result["privatekey"]);
+                    fclose($fp);
+
+                    $fp = fopen($pub_slib, 'w') or die("File not found!");
+                    fwrite($fp, $result["publickey"]);
+                    fclose($fp);
 
                     $fp = fopen($privFile, 'w') or die("File not found!");
                     fwrite($fp, $rsa_key_private->toPEM());
@@ -170,28 +189,8 @@ if(!checkEmpty($arr, $action))
                     fwrite($fp, $rsa_key_public->toPEM());
                     fclose($fp);
 
-                    $coreData["executionTime"] = (int)((microtime(true) - $time_start) * 1000);
-                    break;
-
-                case "genkeys":
-                    include("auth.php");
-
-                    $time_start = microtime(true);
-                    include(__DIR__ . "/../libs/phpseclib/rsa_autoload.php");
-
-                    $rsa = new phpseclib\Crypt\RSA();
-                    //$rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
-                    $result = $rsa->createKey(4096);
-
-                    $fp = fopen($privFile, 'w') or die("File not found!");
-                    fwrite($fp, $result["privatekey"]);
-                    fclose($fp);
-
-                    $fp = fopen($pubFile, 'w') or die("File not found!");
-                    fwrite($fp, $result["publickey"]);
-                    fclose($fp);
-
-                    $coreData["executionTime"] = (int)((microtime(true) - $time_start) * 1000);
+                    $coreData["executionTime"]["SecLib"] = $seclib_et;
+                    $coreData["executionTime"]["JWK"] = (int)((microtime(true) - $time_start) * 1000);
                     break;
 
                 case "pubkey":
@@ -285,15 +284,7 @@ if(!checkEmpty($arr, $action))
                     $key = null;
                     if($jwk)
                     {
-                        $key = \Jose\Factory\JWKFactory::createFromKeyFile(
-                            $file,
-                            null,
-                            [
-                                'kid' => 'My Public RSA key',
-                                'use' => 'enc',
-                                'alg' => 'RSA-OAEP',
-                            ]
-                        );
+                        $key = \Jose\Factory\JWKFactory::createFromKeyFile($file);
                     }
                     else
                         $key = new \Jose\KeyConverter\RSAKey($contents);
@@ -304,7 +295,7 @@ if(!checkEmpty($arr, $action))
                         [
                             'alg' => 'RSA-OAEP',
                             'enc' => 'A256GCM',
-                            'zip' => 'DEF',
+                            'zip' => null,
                         ]
                     );
 
@@ -335,6 +326,8 @@ if(!checkEmpty($arr, $action))
                         ['A256GCM'],       // A list of allowed content encryption algorithms
                         $recipient_index   // If decrypted, this variable will be set with the recipient index used to decrypt
                     );
+
+                    //print_r($jws);
 
                     $coreData["content"] = $jws->getPayload();
                     break;
