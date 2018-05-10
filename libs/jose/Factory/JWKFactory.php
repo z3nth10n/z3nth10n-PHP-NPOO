@@ -104,7 +104,7 @@ final class JWKFactory implements JWKFactoryInterface
 
         $key = openssl_pkey_new([
             'private_key_bits' => $size,
-            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            //'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ] + $config);
         openssl_pkey_export($key, $out, null, $config);
         $rsa = new RSAKey($out);
