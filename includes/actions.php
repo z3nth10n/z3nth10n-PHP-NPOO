@@ -196,7 +196,9 @@ if(!checkEmpty($arr, $action))
 
                 case "pubkey":
                     //$coreData["privKey"] = file_get_contents("keys/private.key");
-                    $coreData["pubKey"] = file_get_contents("keys/public.key");
+                    $seclib = @$_GET["seclib"];
+
+                    $coreData["pubKey"] = file_get_contents($seclib ? "keys/public-seclib.key" : "keys/public.key");
                     break;
 
                 case "captcha":
