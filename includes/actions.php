@@ -178,6 +178,8 @@ if(!checkEmpty($arr, $action))
                     fwrite($fp, $result["privatekey"]);
                     fclose($fp);
 
+                    chmod($priv_slib, 0600);
+
                     $fp = fopen($pub_slib, 'w') or die("File not found!");
                     fwrite($fp, $result["publickey"]);
                     fclose($fp);
@@ -185,6 +187,8 @@ if(!checkEmpty($arr, $action))
                     $fp = fopen($privFile, 'w') or die("File not found!");
                     fwrite($fp, $rsa_key_private->toPEM());
                     fclose($fp);
+
+                    chmod($privFile, 0600);
 
                     $fp = fopen($pubFile, 'w') or die("File not found!");
                     fwrite($fp, $rsa_key_public->toPEM());
