@@ -200,9 +200,12 @@ if(!checkEmpty($arr, $action))
 
                 case "pubkey":
                     //$coreData["privKey"] = file_get_contents("keys/private.key");
-                    $seclib = @$_GET["seclib"];
+                    $filekey = @$_GET["filekey"];
+                    $filekey = isset($filekey) ? $filekey : 0;
 
-                    $coreData["pubKey"] = file_get_contents($seclib ? "keys/public-seclib.key" : "keys/public.key");
+                    $filename = getKeyFilename($filekey, true);
+
+                    $coreData["pubKey"] = file_get_contents("keys/".$filename);
                     break;
 
                 case "captcha":
@@ -266,12 +269,15 @@ if(!checkEmpty($arr, $action))
                         $rsa = new \phpseclib\Crypt\RSA();
                         extract($rsa->createKey());
 
-                        $plaintext = 'terrafrost';
+                        $filekey = @$_GET["filekey"];
+                        $filekey = isset($filekey) ? $filekey : 0;
+
+                        $filename = getKeyFilename($filekey, true);
 
                         //$rsa->loadKey($privatekey);
                         //$ciphertext = $rsa->encrypt($plaintext);
 
-                        $publickey = file_get_contents("keys/public.key");
+                        $publickey = file_get_contents("keys/".$filename);
                         $input = @$_GET["input"];
 
                         $rsa->loadKey($publickey);
@@ -279,14 +285,21 @@ if(!checkEmpty($arr, $action))
                     break;
 
                 case 'encrypt-jose':
+                    $filekey = @$_GET["filekey"];
+                    $filekey = isset($filekey) ? $filekey : 0;
+
+                    $filename = getKeyFilename($filekey, true);
+
                     include(__DIR__ . "/../libs/jose/autoload.php");
 
-                    $file = __DIR__ . '/../keys/public.key';
+                    $file = __DIR__ . '/../keys/'.$filename;
                     $contents = file_get_contents($file);
 
                     // This is the input we want to load verify.
                     $input = @$_GET["input"];
                     $jwk = @$_GET["jwk"];
+
+
 
                     $key = null;
                     if($jwk)
@@ -311,9 +324,14 @@ if(!checkEmpty($arr, $action))
 
                     //This goes to POST
                 case 'decrypt-jose':
+                    $filekey = @$_GET["filekey"];
+                    $filekey = isset($filekey) ? $filekey : 0;
+
+                    $filename = getKeyFilename($filekey, true);
+
                     include(__DIR__ . "/../libs/jose/autoload.php");
 
-                    $file = __DIR__ . '/../keys/private.key';
+                    $file = __DIR__ . '/../keys/'.$filename;
                     $contents = file_get_contents($file);
 
                     // This is the input we want to load verify.

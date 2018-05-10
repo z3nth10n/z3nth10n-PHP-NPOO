@@ -55,8 +55,9 @@ function getErrorCaption($key)
 {
 	global $Error;
 
-	//WIP in PHP 7 there is aproblem with the commented part
-	return StrFormat($Error[$key], null); //array_slice(func_get_args(), 1)[0]
+	//Fixed problem in PHP
+	$args = func_get_args();
+	return StrFormat($Error[$key], count($args) > 0 ? array_slice($args, 1)[0] : null);
 }
 
 function getErrors() 
@@ -103,6 +104,21 @@ function showJson($data)
 		$coreArray["data"] = $data;
 
 	return json_encode($coreArray, true);
+}
+
+function getKeyFilename($type, $public)
+{
+    switch ($type)
+    {
+        case 0:
+            return $public ? "public.key" : "private.key";
+
+        case 1:
+            return $public ? "public-seclib.key" : "private-seclib.key";
+
+        case 2:
+            return $public ? "public-openssl.key" : "private-openssl.key";
+    }
 }
 
 function PrettyDump($data)

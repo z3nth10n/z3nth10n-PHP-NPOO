@@ -104,7 +104,7 @@ final class JWKFactory implements JWKFactoryInterface
 
         $key = openssl_pkey_new([
             'private_key_bits' => $size,
-            //'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ] + $config);
         openssl_pkey_export($key, $out, null, $config);
         $rsa = new RSAKey($out);
@@ -113,8 +113,188 @@ final class JWKFactory implements JWKFactoryInterface
             $rsa->toArray()
         );
 
+        //            $privatekey = call_user_func_array(array($this, '_convertPrivateKey'), array_values($this->_parseKey($privatekey, self::PRIVATE_FORMAT_PKCS1)));
+        //            $publickey = call_user_func_array(array($this, '_convertPublicKey'), array_values($this->_parseKey($publickey, self::PUBLIC_FORMAT_PKCS1)));
+
         return new JWK($values);
     }
+
+    /**
+     * Convert a private key to the appropriate format.
+     *
+     * @access private
+     * @see self::setPrivateKeyFormat()
+     * @param string $RSAPrivateKey
+     * @return string
+     */
+    /*function _convertPrivateKey($n, $e, $d, $primes, $exponents, $coefficients)
+    {
+        $signed = $this->privateKeyFormat != self::PRIVATE_FORMAT_XML;
+        $num_primes = count($primes);
+        $raw = array(
+            'version' => $num_primes == 2 ? chr(0) : chr(1), // two-prime vs. multi
+            'modulus' => $n->toBytes($signed),
+            'publicExponent' => $e->toBytes($signed),
+            'privateExponent' => $d->toBytes($signed),
+            'prime1' => $primes[1]->toBytes($signed),
+            'prime2' => $primes[2]->toBytes($signed),
+            'exponent1' => $exponents[1]->toBytes($signed),
+            'exponent2' => $exponents[2]->toBytes($signed),
+            'coefficient' => $coefficients[2]->toBytes($signed)
+        );
+
+                $components = array();
+                foreach ($raw as $name => $value) {
+                    $components[$name] = pack('Ca*a*', self::ASN1_INTEGER, $this->_encodeLength(strlen($value)), $value);
+                }
+
+                $RSAPrivateKey = implode('', $components);
+
+                if ($num_primes > 2) {
+                    $OtherPrimeInfos = '';
+                    for ($i = 3; $i <= $num_primes; $i++) {
+                        // OtherPrimeInfos ::= SEQUENCE SIZE(1..MAX) OF OtherPrimeInfo
+                        //
+                        // OtherPrimeInfo ::= SEQUENCE {
+                        //     prime             INTEGER,  -- ri
+                        //     exponent          INTEGER,  -- di
+                        //     coefficient       INTEGER   -- ti
+                        // }
+                        $OtherPrimeInfo = pack('Ca*a*', self::ASN1_INTEGER, $this->_encodeLength(strlen($primes[$i]->toBytes(true))), $primes[$i]->toBytes(true));
+                        $OtherPrimeInfo.= pack('Ca*a*', self::ASN1_INTEGER, $this->_encodeLength(strlen($exponents[$i]->toBytes(true))), $exponents[$i]->toBytes(true));
+                        $OtherPrimeInfo.= pack('Ca*a*', self::ASN1_INTEGER, $this->_encodeLength(strlen($coefficients[$i]->toBytes(true))), $coefficients[$i]->toBytes(true));
+                        $OtherPrimeInfos.= pack('Ca*a*', self::ASN1_SEQUENCE, $this->_encodeLength(strlen($OtherPrimeInfo)), $OtherPrimeInfo);
+                    }
+                    $RSAPrivateKey.= pack('Ca*a*', self::ASN1_SEQUENCE, $this->_encodeLength(strlen($OtherPrimeInfos)), $OtherPrimeInfos);
+                }
+
+                $RSAPrivateKey = pack('Ca*a*', self::ASN1_SEQUENCE, $this->_encodeLength(strlen($RSAPrivateKey)), $RSAPrivateKey);
+
+                if ($this->privateKeyFormat == self::PRIVATE_FORMAT_PKCS8) {
+                    $rsaOID = pack('H*', '300d06092a864886f70d0101010500'); // hex version of MA0GCSqGSIb3DQEBAQUA
+                    $RSAPrivateKey = pack(
+                        'Ca*a*Ca*a*',
+                        self::ASN1_INTEGER,
+                        "\01\00",
+                        $rsaOID,
+                        4,
+                        $this->_encodeLength(strlen($RSAPrivateKey)),
+                        $RSAPrivateKey
+                    );
+                    $RSAPrivateKey = pack('Ca*a*', self::ASN1_SEQUENCE, $this->_encodeLength(strlen($RSAPrivateKey)), $RSAPrivateKey);
+                    if (!empty($this->password) || is_string($this->password)) {
+                        $salt = Random::string(8);
+                        $iterationCount = 2048;
+
+                        $crypto = new DES();
+                        $crypto->setPassword($this->password, 'pbkdf1', 'md5', $salt, $iterationCount);
+                        $RSAPrivateKey = $crypto->encrypt($RSAPrivateKey);
+
+                        $parameters = pack(
+                            'Ca*a*Ca*N',
+                            self::ASN1_OCTETSTRING,
+                            $this->_encodeLength(strlen($salt)),
+                            $salt,
+                            self::ASN1_INTEGER,
+                            $this->_encodeLength(4),
+                            $iterationCount
+                        );
+                        $pbeWithMD5AndDES_CBC = "\x2a\x86\x48\x86\xf7\x0d\x01\x05\x03";
+
+                        $encryptionAlgorithm = pack(
+                            'Ca*a*Ca*a*',
+                            self::ASN1_OBJECT,
+                            $this->_encodeLength(strlen($pbeWithMD5AndDES_CBC)),
+                            $pbeWithMD5AndDES_CBC,
+                            self::ASN1_SEQUENCE,
+                            $this->_encodeLength(strlen($parameters)),
+                            $parameters
+                        );
+
+                        $RSAPrivateKey = pack(
+                            'Ca*a*Ca*a*',
+                            self::ASN1_SEQUENCE,
+                            $this->_encodeLength(strlen($encryptionAlgorithm)),
+                            $encryptionAlgorithm,
+                            self::ASN1_OCTETSTRING,
+                            $this->_encodeLength(strlen($RSAPrivateKey)),
+                            $RSAPrivateKey
+                        );
+
+                        $RSAPrivateKey = pack('Ca*a*', self::ASN1_SEQUENCE, $this->_encodeLength(strlen($RSAPrivateKey)), $RSAPrivateKey);
+
+                        $RSAPrivateKey = "-----BEGIN ENCRYPTED PRIVATE KEY-----\r\n" .
+                            chunk_split(base64_encode($RSAPrivateKey), 64) .
+                            '-----END ENCRYPTED PRIVATE KEY-----';
+                    } else {
+                        $RSAPrivateKey = "-----BEGIN PRIVATE KEY-----\r\n" .
+                            chunk_split(base64_encode($RSAPrivateKey), 64) .
+                            '-----END PRIVATE KEY-----';
+                    }
+                    return $RSAPrivateKey;
+
+        }
+    }*/
+
+    /**
+     * Convert a public key to the appropriate format
+     *
+     * @access private
+     * @see self::setPublicKeyFormat()
+     * @param string $RSAPrivateKey
+     * @return string
+     */
+    /*function _convertPublicKey($n, $e)
+    {
+        $signed = $this->publicKeyFormat != self::PUBLIC_FORMAT_XML;
+
+        $modulus = $n->toBytes($signed);
+        $publicExponent = $e->toBytes($signed);
+
+
+             // eg. self::PUBLIC_FORMAT_PKCS1_RAW or self::PUBLIC_FORMAT_PKCS1
+                // from <http://tools.ietf.org/html/rfc3447#appendix-A.1.1>:
+                // RSAPublicKey ::= SEQUENCE {
+                //     modulus           INTEGER,  -- n
+                //     publicExponent    INTEGER   -- e
+                // }
+                $components = array(
+                    'modulus' => pack('Ca*a*', self::ASN1_INTEGER, $this->_encodeLength(strlen($modulus)), $modulus),
+                    'publicExponent' => pack('Ca*a*', self::ASN1_INTEGER, $this->_encodeLength(strlen($publicExponent)), $publicExponent)
+                );
+
+                $RSAPublicKey = pack(
+                    'Ca*a*a*',
+                    self::ASN1_SEQUENCE,
+                    $this->_encodeLength(strlen($components['modulus']) + strlen($components['publicExponent'])),
+                    $components['modulus'],
+                    $components['publicExponent']
+                );
+
+                if ($this->publicKeyFormat == self::PUBLIC_FORMAT_PKCS1_RAW) {
+                    $RSAPublicKey = "-----BEGIN RSA PUBLIC KEY-----\r\n" .
+                        chunk_split(base64_encode($RSAPublicKey), 64) .
+                        '-----END RSA PUBLIC KEY-----';
+                } else {
+                    // sequence(oid(1.2.840.113549.1.1.1), null)) = rsaEncryption.
+                    $rsaOID = pack('H*', '300d06092a864886f70d0101010500'); // hex version of MA0GCSqGSIb3DQEBAQUA
+                    $RSAPublicKey = chr(0) . $RSAPublicKey;
+                    $RSAPublicKey = chr(3) . $this->_encodeLength(strlen($RSAPublicKey)) . $RSAPublicKey;
+
+                    $RSAPublicKey = pack(
+                        'Ca*a*',
+                        self::ASN1_SEQUENCE,
+                        $this->_encodeLength(strlen($rsaOID . $RSAPublicKey)),
+                        $rsaOID . $RSAPublicKey
+                    );
+
+                    $RSAPublicKey = "-----BEGIN PUBLIC KEY-----\r\n" .
+                        chunk_split(base64_encode($RSAPublicKey), 64) .
+                        '-----END PUBLIC KEY-----';
+                }
+
+                return $RSAPublicKey;
+    }*/
 
     /**
      * {@inheritdoc}
