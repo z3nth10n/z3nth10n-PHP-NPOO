@@ -154,15 +154,16 @@ if(!checkEmpty($arr, $action))
                 case "genkeys":
                     include("auth.php");
 
-                    $time_start = microtime(true);
                     include(__DIR__ . "/../libs/jose/autoload.php");
                     include(__DIR__ . "/../libs/phpseclib/rsa_autoload.php");
+
+                    $time_start = microtime(true);
 
                     $rsa = new phpseclib\Crypt\RSA();
                     //$rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_OPENSSH);
                     $result = $rsa->createKey(4096);
 
-                    $seclib_et = (int)((microtime(true) - $time_start));
+                    $seclib_et = (int)((microtime(true) - $time_start) * 1000);
                     $time_start = microtime(true);
 
                     $private_key = Jose\Factory\JWKFactory::createKey([ 'kty'  => 'RSA', 'size' => 4096]);
