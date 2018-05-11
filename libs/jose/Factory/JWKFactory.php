@@ -90,7 +90,7 @@ final class JWKFactory implements JWKFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public static function createRSAKey(array $values)
+    public static function createRSAKey(array $values, $useconfig = true)
     {
         $config = array();
         $config['config'] = dirname(__FILE__) . '/../openssl.cnf';
@@ -105,8 +105,13 @@ final class JWKFactory implements JWKFactoryInterface
         $key = openssl_pkey_new([
             'private_key_bits' => $size,
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
-        ] + $config);
-        openssl_pkey_export($key, $out, null, $config);
+        ] + $useconfig ? $config : null);
+
+        if($useconfig)
+            openssl_pkey_export($key, $out, null, $config);
+        else
+            openssl_pkey_export($key, $out);
+        
         $rsa = new RSAKey($out);
         $values = array_merge(
             $values,
